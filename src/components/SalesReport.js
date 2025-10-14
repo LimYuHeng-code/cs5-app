@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 
 const SalesReport = () => {
-  const [productChecked, setProductChecked] = useState(false);
+  const [productChecked, setProductChecked] = useState(false); //Update the state variable currently false 
   const [categoryChecked, setCategoryChecked] = useState(false);
   const [popularChecked, setPopularChecked] = useState(false);
 
-  const [productReport, setProductReport] = useState('');
+  const [productReport, setProductReport] = useState('');//state variable to store the report content (initially empty), and a function to update it when data is fetched or cleared.
   const [categoryReport, setCategoryReport] = useState('');
   const [popularReport, setPopularReport] = useState('');
+
+  //Fetches data from the server based on a given report type
+
+  //Updates the UI using a React state setter
+
+  //Handles errors gracefully if the fetch fails
 
   const fetchReport = async (type, setter) => {
     try {
@@ -22,12 +28,12 @@ const SalesReport = () => {
   };
 
   const handleProductChange = async (e) => {
-    const checked = e.target.checked;
-    setProductChecked(checked);
+    const checked = e.target.checked; //This extracts whether the checkbox is checked or not (true or false) from the event.
+    setProductChecked(checked);//Update the state to checked
     if (checked) {
-      await fetchReport('product', setProductReport);
+      await fetchReport('product', setProductReport); //show the report
     } else {
-      setProductReport('');
+      setProductReport(''); //hide the report
     }
   };
 
@@ -59,8 +65,8 @@ const SalesReport = () => {
         <input
           type="checkbox"
           id="product-checkbox"
-          checked={productChecked}
-          onChange={handleProductChange}
+          checked={productChecked} //Update state
+          onChange={handleProductChange} // Call the function
         />
         <label htmlFor="product-checkbox">Total dollar and quantity sales by product</label>
       </div>
@@ -90,7 +96,7 @@ const SalesReport = () => {
         {productChecked && (
           <div
             id="product-report"
-            dangerouslySetInnerHTML={{ __html: productReport }}
+            dangerouslySetInnerHTML={{ __html: productReport }} //inject raw HTML directly into the DOM inside a React component.
           />
         )}
 

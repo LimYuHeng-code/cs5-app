@@ -50,12 +50,11 @@ function MenuPage() {
       <form onSubmit={handleSubmit}>
         <table border="0" id="centered">
           <tbody>
-            <tr>
-              <td>Just Java</td>
-              <td>
-                Regular house blend, decaffeinated coffee, or flavour of the day.
-                <br />
-                <strong>Endless Cup $2.00</strong>
+              <tr id="table-row-1">
+                            <td headers="dish" id="table-leftcol">Just Java</td>
+                            <td headers="description" id="table-rightcol">
+                                Regular house blend, decaffeinated coffee, or flavour of the day.
+                                <br /><strong>Endless Cup $2.00</strong>
               </td>
               <td>
                 <input
@@ -72,10 +71,9 @@ function MenuPage() {
               </td>
             </tr>
             <tr>
-              <td>Cafe au Lait</td>
-              <td>
-                House blended coffee infused into a smooth, steamed milk.
-                <br />
+             <td headers="dish" id="table-leftcol">Cafe au Lait</td>
+                            <td headers="description" id="table-rightcol">
+                                House blended coffee infused into a smooth, steamed milk.<br />
                 <label>
                   <input
                     type="radio"
@@ -113,11 +111,11 @@ function MenuPage() {
                 ).toFixed(2)}
               </td>
             </tr>
-            <tr>
-              <td>Iced Cappuccino</td>
-              <td>
-                Sweetened espresso blended with icy-cold milk and served in chilled glass.
-                <br />
+          <tr id="table-row-1">
+                            <td headers="dish" id="table-leftcol">Iced Cappucino</td>
+                            <td headers="description" id="table-rightcol">
+                                Sweetened espresso blended with icy-cold milk and served in chilled glass.
+                                <br />
                 <label>
                   <input
                     type="radio"

@@ -4,11 +4,11 @@ function PriceUpdate() {
   const [formData, setFormData] = useState({
     justJava: false,
     cafeAuLait: false,
-    icedCappuccino: false,
+    icedCappuccino: false, //Checkbox selections
     price_justjava: "",
     price_cafeaulait_single: "",
     price_cafeaulait_double: "",
-    price_icedcappuccino_single: "",
+    price_icedcappuccino_single: "", //Input values for different prices
     price_icedcappuccino_double: "",
   });
 
@@ -103,7 +103,7 @@ function PriceUpdate() {
       payload.price_icedcappuccino_single = formData.price_icedcappuccino_single.trim();
       payload.price_icedcappuccino_double = formData.price_icedcappuccino_double.trim();
     }
-
+    //Fetches data from the backend by sending updated price information, waits for the response
     try {
       const res = await fetch(
         "http://localhost/IE4727/Week9/CS5Additional/cs5-app/backend/price_update.php",
@@ -148,7 +148,7 @@ function PriceUpdate() {
         <table border="0" id="centered">
           <tbody>
             {/* Just Java */}
-            <tr>
+            <tr id="table-row-1">
               <td>
                 <input
                   type="checkbox"
@@ -157,9 +157,10 @@ function PriceUpdate() {
                   onChange={handleChange}
                 />
               </td>
-              <td>Just Java</td>
-              <td>
-                Endless Cup $2.00 <br />
+                            <td headers="dish" id="table-leftcol">Just Java</td>
+                            <td headers="description" id="table-rightcol">
+                                Regular house blend, decaffeinated coffee, or flavour of the day.
+                                <br /><strong>Endless Cup $2.00</strong> <br />
                 New Price: $
                 <input
                   type="number"
@@ -184,8 +185,10 @@ function PriceUpdate() {
                   onChange={handleChange}
                 />
               </td>
-              <td>Cafe au Lait</td>
-              <td>
+              <td headers="dish" id="table-leftcol">Cafe au Lait</td>
+                            <td headers="description" id="table-rightcol">
+                                House blended coffee infused into a smooth, steamed milk.<br />
+
                 Single $2.00, Double $3.00 <br />
                 Single: $
                 <input
@@ -214,7 +217,7 @@ function PriceUpdate() {
             </tr>
 
             {/* Iced Cappuccino */}
-            <tr>
+                <tr id="table-row-1">
               <td>
                 <input
                   type="checkbox"
@@ -223,8 +226,10 @@ function PriceUpdate() {
                   onChange={handleChange}
                 />
               </td>
-              <td>Iced Cappuccino</td>
-              <td>
+              <td headers="dish" id="table-leftcol">Iced Cappucino</td>
+              <td headers="description" id="table-rightcol">
+                Sweetened espresso blended with icy-cold milk and served in chilled glass.
+                <br />
                 Single $4.75, Double $5.75 <br />
                 Single: $
                 <input
@@ -243,11 +248,11 @@ function PriceUpdate() {
                   type="number"
                   name="price_icedcappuccino_double"
                   placeholder="e.g. 5.75"
-                  value={formData.price_icedcappuccino_double}
-                  onChange={handleChange}
-                  min="0"
+                  value={formData.price_icedcappuccino_double} //Input value for double price
+                  onChange={handleChange} //Update state on change
+                  min="0" //Prevent negative values
                   step="0.05"
-                  disabled={!formData.icedCappuccino}
+                  disabled={!formData.icedCappuccino} //Is disabled until the user selects (checks) the "Iced Cappuccino" option
                 />
               </td>
             </tr>
@@ -275,11 +280,11 @@ function PriceUpdate() {
             </tr>
           </thead>
           <tbody>
-            {products.map((p, i) => (
+            {products.map((p, i) => ( //p is the product object, i is the index
               <tr key={i}>
                 <td>{p.name}</td>
                 <td>${p.price_single}</td>
-                <td>{p.price_double ? `$${p.price_double}` : "-"}</td>
+                <td>{p.price_double ? `$${p.price_double}` : "-"}</td> {/* Dynamic product list with name, single price, and double price (or “-” if not available) */}
               </tr>
             ))}
           </tbody>
