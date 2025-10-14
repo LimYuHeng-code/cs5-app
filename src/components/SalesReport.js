@@ -1,78 +1,116 @@
 import React, { useState } from 'react';
 
-function SalesReport() {
+const SalesReport = () => {
   const [productChecked, setProductChecked] = useState(false);
   const [categoryChecked, setCategoryChecked] = useState(false);
   const [popularChecked, setPopularChecked] = useState(false);
 
+  const [productReport, setProductReport] = useState('');
+  const [categoryReport, setCategoryReport] = useState('');
+  const [popularReport, setPopularReport] = useState('');
+
+  const fetchReport = async (type, setter) => {
+    try {
+      const response = await fetch(`http://localhost/IE4727/Week9/CS5Additional/cs5-app/backend/sales_report1.php?type=${type}`);
+      if (!response.ok) throw new Error('Network error');
+      const data = await response.text();
+      setter(data);
+    } catch (err) {
+      setter(`<p style="color:red;">Failed to load ${type} report.</p>`);
+      console.error(err);
+    }
+  };
+
+  const handleProductChange = async (e) => {
+    const checked = e.target.checked;
+    setProductChecked(checked);
+    if (checked) {
+      await fetchReport('product', setProductReport);
+    } else {
+      setProductReport('');
+    }
+  };
+
+  const handleCategoryChange = async (e) => {
+    const checked = e.target.checked;
+    setCategoryChecked(checked);
+    if (checked) {
+      await fetchReport('category', setCategoryReport);
+    } else {
+      setCategoryReport('');
+    }
+  };
+
+  const handlePopularChange = async (e) => {
+    const checked = e.target.checked;
+    setPopularChecked(checked);
+    if (checked) {
+      await fetchReport('popular', setPopularReport);
+    } else {
+      setPopularReport('');
+    }
+  };
+
   return (
-    <div className="content" style={{ padding: '20px', fontFamily: 'Arial' }}>
+    <div className="content">
       <h2>Click to generate daily sales report:</h2>
 
       <div>
         <input
           type="checkbox"
           id="product-checkbox"
-          name="product"
           checked={productChecked}
-          onChange={() => setProductChecked(!productChecked)}
+          onChange={handleProductChange}
         />
-        <label htmlFor="product-checkbox" style={{ marginLeft: '8px' }}>
-          Total dollar and quantity sales by product
-        </label>
+        <label htmlFor="product-checkbox">Total dollar and quantity sales by product</label>
       </div>
-      <br />
 
       <div>
         <input
           type="checkbox"
           id="category-checkbox"
-          name="category"
           checked={categoryChecked}
-          onChange={() => setCategoryChecked(!categoryChecked)}
+          onChange={handleCategoryChange}
         />
-        <label htmlFor="category-checkbox" style={{ marginLeft: '8px' }}>
-          Total dollar and quantity sales by categories
-        </label>
+        <label htmlFor="category-checkbox">Total dollar and quantity sales by categories</label>
       </div>
-      <br />
 
       <div>
         <input
           type="checkbox"
           id="popular-checkbox"
-          name="popular"
           checked={popularChecked}
-          onChange={() => setPopularChecked(!popularChecked)}
+          onChange={handlePopularChange}
         />
-        <label htmlFor="popular-checkbox" style={{ marginLeft: '8px' }}>
-          Popular option of best selling product
-        </label>
+        <label htmlFor="popular-checkbox">Popular option of best selling product</label>
       </div>
-      <br />
 
-      {productChecked && (
-        <div id="product-report" style={{ border: '1px solid #ccc', padding: '10px' }}>
-          <h3>Product Report</h3>
-          <p>This is a placeholder for total dollar and quantity sales by product.</p>
-        </div>
-      )}
+      {/* Report display areas */}
+      <div style={{ marginTop: '20px' }}>
+        {productChecked && (
+          <div
+            id="product-report"
+            dangerouslySetInnerHTML={{ __html: productReport }}
+          />
+        )}
 
-      {categoryChecked && (
-        <div id="category-report" style={{ border: '1px solid #ccc', padding: '10px' }}>
-          <h3>Category Report</h3>
-          <p>This is a placeholder for total dollar and quantity sales by categories.</p>
-        </div>
-      )}
+        {categoryChecked && (
+          <div
+            id="category-report"
+            dangerouslySetInnerHTML={{ __html: categoryReport }}
+          />
+        )}
 
-      {popularChecked && (
-        <div id="popular-report" style={{ border: '1px solid #ccc', padding: '10px' }}>
-          <h3>Popular Report</h3>
-          <p>This is a placeholder for popular option of best selling product.</p>
-        </div>
-      )}
+        {popularChecked && (
+          <div
+            id="popular-report"
+            dangerouslySetInnerHTML={{ __html: popularReport }}
+          />
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default SalesReport;
+
